@@ -8,14 +8,15 @@ from rest_framework.viewsets import ModelViewSet
 from .models import Post, Comment, Like
 from .serializers import PostSerializer, PostCreateSerializer, CommentSerializer
 
-
 # Create your views here.
+
 
 class IsOwnerOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
         return obj.author == request.user
+
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
@@ -33,7 +34,9 @@ class PostViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def perform_update(self, serializer):
-        serializer.save(author=self.request.user)
+        if not self.request.user == serializer.instance.author:
+            raise PermissionDenied(detail='Вы не являетесь автором поста!')
+        serializer.save(author=serializer.instance.author)
 
     def like(self, request, pk=None):
         post = self.get_object()
@@ -56,5 +59,8 @@ class CommentViewSet(ModelViewSet):
         if not self.request.user.is_authenticated:
             raise PermissionDenied(detail='Требуется аутентификация')
         post_id = self.kwargs.get('post_id')
-        post = Post.objects.get(id=post_id)
+        try:
+            post = Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
+            raise NotFound(detail=f'Пост с id={post_id} не найден.')
         serializer.save(author=self.request.user, post=post)

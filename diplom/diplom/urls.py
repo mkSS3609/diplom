@@ -8,4 +8,3 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('', include('posts.urls')),  # Подключаем маршруты приложения posts
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

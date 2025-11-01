@@ -44,6 +44,6 @@ class PostCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
     def validate_text(self, value):
-        if not value.strip() or not self.initial_data.get('image'):
-            raise serializers.ValidationError('Отсутствует текст и/или изображение!')
+        if not value.strip() and not self.initial_data.get('image'):
+            raise serializers.ValidationError('Пост должен содержать и текст, и изображение!')
         return value

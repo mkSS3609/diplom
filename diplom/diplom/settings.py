@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework', # API
     'rest_framework.authtoken',
     'posts', # приложение для постов, комментариев и лайков
