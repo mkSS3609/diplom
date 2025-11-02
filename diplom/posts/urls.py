@@ -4,19 +4,23 @@ from .views import PostViewSet, CommentViewSet
 urlpatterns = [
     path(
         'posts/',
-        PostViewSet.as_view({'get': 'list', 'post': 'create'}), name='post-list'
+        PostViewSet.as_view({'get': 'list', 'post': 'create'}), 
+        name='post-list'
     ),
     path(
         'posts/<int:pk>/',
-        PostViewSet.as_view({'get': 'retrieve', 'post': 'partial_update', 'delete': 'destroy'}), name='post-detail'
+        PostViewSet.as_view({'get': 'retrieve', 'post': 'partial_update', 'delete': 'destroy'}), 
+        name='post-detail'
     ),
     path(
         'posts/<int:post_id>/comments/',
-        CommentViewSet.as_view({'get': 'list', 'post': 'create'}), name='post-comments'
+        CommentViewSet.as_view({'get': 'list', 'post': 'create'}), 
+        name='post-comments'
     ),
     path(
         'posts/<int:pk>/liked/',
-        PostViewSet.as_view({'post': 'like'}), name='post-like'
+        PostViewSet.as_view({'post': 'like'}), 
+        name='post-like'
     ),
 ]
 
